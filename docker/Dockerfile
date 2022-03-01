@@ -24,7 +24,12 @@ RUN set -eux; \
 	gosu nobody true
 
 # Install project dependencies.
-COPY ../requirements.txt /root/requirements.txt
+COPY ./requirements.txt /root/requirements.txt
+RUN pip3 install --upgrade pip
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
+RUN apt-get install -y libopenmpi-dev
+RUN pip3 install webdataset
 RUN pip3 install -r /root/requirements.txt
 
 # Copy the entrypoint script to the container.
